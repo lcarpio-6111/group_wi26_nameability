@@ -4,6 +4,7 @@
 <head>
   <title>Nameability Experiment</title>
   <script src="https://unpkg.com/jspsych@8.0.0"></script>
+  <script src="https://unpkg.com/@jspsych/plugin-categorize-image@2.0.0"></script>
   <link href="https://unpkg.com/jspsych@8.0.0/css/jspsych.css" rel="stylesheet" type="text/css" />
 </head>
 
@@ -12,13 +13,50 @@
 
   /* initialize jsPsych */
   var jsPsych = initJsPsych({
-  on_finish: function() {
-    jsPsych.data.displayData();
-  }
-});
+    on_finish: function () {
+      jsPsych.data.displayData();
+    }
+  });
 
   /* create timeline */
   var timeline = [];
+
+  var image_path = "stimuli/experiment1A/" //use image path here - could make it easier to switch which items you're using!
+  var condition = "high" // how can we randomize condition between participants?
+
+  // here's a way you could organize the stimulus list. How can you build this out to create the full stimulus list and block structure?
+  // how can you handle randomization? What are the key counterbalancing steps to manage?
+  stimulus_list = [
+    { image: "A_000.png", category: "A", key_answer: "a"},
+    { image: "B_111.png", category: "B", key_answer: "b"},
+  ];
+
+  for (let i = 0; i < stimulus_list.length; i++) {
+    // set current stimulu based on the stimulus list
+    current_stimulus = stimulus_list[i];
+
+    // create current trial
+    // here we're using a simple categorization plugin - what other edits can you make to fit the original experiment task design?
+    // if feeling very ambitious, you could try to create a custom drag-and-drop plugin to match the experiment more closely
+    var trial = {
+      type: jsPsychCategorizeImage,
+      stimulus: image_path + condition + "_" + current_stimulus['image'],
+      key_answer: current_stimulus['key_answer'], // are these the best response keys?
+      text_answer: current_stimulus['category'],
+      choices: ['a', 'b'],
+      correct_text: "<p class='prompt'>Correct! It belongs in box %ANS%.</p>",
+      incorrect_text: "<p class='prompt'>Incorrect. It belongs in box %ANS%.</p>",
+      prompt: "<p>Does the item belong in box A (press a) or box B (press b)?</p>",
+      // What data should we be storing for each trial?
+    };
+
+    //Can you figure out how to repeat the trial if the response is incorrect? (as in the original study)
+
+    // add trial to the timeline
+    timeline.push(trial);
+
+  }
+
 
 
   /* start the experiment */
