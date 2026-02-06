@@ -12,18 +12,10 @@
  <script src="https://unpkg.com/@jspsych/plugin-survey-text@2.1.0"></script>
 
 
-
-
  <link href="https://unpkg.com/jspsych@8.2.3/css/jspsych.css" rel="stylesheet" />
 </head>
 
-
-
-
 <body></body>
-
-
-
 
 <script>
  // Init
@@ -35,12 +27,7 @@
    }
  });
 
-
-
-
  var timeline = [];
-
-
 
 
  // Preload images
@@ -69,14 +56,11 @@ timeline.push(preload);
 
 
 
-
  // Fullscreen ON
  timeline.push({
    type: jsPsychFullscreen,
    fullscreen_mode: true
  });
-
-
 
 
  // Participant ID
@@ -95,13 +79,10 @@ timeline.push(preload);
 
 
 
-
  // Random condition assignment
  var conditions = ["easy", "hard"];
  var condition_assignment = jsPsych.randomization.sampleWithoutReplacement(conditions, 1)[0];
  console.log("Condition:", condition_assignment);
-
-
 
 
  jsPsych.data.addProperties({
@@ -110,27 +91,7 @@ timeline.push(preload);
 
 
 
-
-
-
-
-
- // Welcome (prototypes based on condition)
-
-
-
-
-
-
-
-
-
-
 // Instructions
-
-
-
-
  var instructions = {
    type: jsPsychHtmlKeyboardResponse,
    stimulus: `
@@ -143,12 +104,6 @@ timeline.push(preload);
  timeline.push(instructions);
 
 
-
-
-
-
-
-
  // Fixation
  var fixation = {
    type: jsPsychHtmlKeyboardResponse,
@@ -156,7 +111,6 @@ timeline.push(preload);
    choices: "NO_KEYS",
    trial_duration: 1000
  };
-
 
 
 
@@ -171,16 +125,10 @@ timeline.push(preload);
    key_answer: jsPsych.timelineVariable('correct_key'),
    text_answer: jsPsych.timelineVariable('correct_label'),
 
-
-
-
    trial_duration: 10000,
    prompt: "<p>Press <strong>A</strong> for Category A, <strong>B</strong> for Category B.</p>",
    correct_text: "<p class='prompt'>Correct! The Category is %ANS%.</p>",
    incorrect_text: "<p class='prompt'>Incorrect. The Category is %ANS%.</p>",
-
-
-
 
    data: {
      difficulty: jsPsych.timelineVariable('difficulty'),
@@ -200,39 +148,31 @@ timeline.push(preload);
      { stimulus: 'stimuli/experiment1a/high_A_001.png', correct_key: 'a', correct_label: 'A', difficulty: 'high' },
      { stimulus: 'stimuli/experiment1a/high_A_010.png', correct_key: 'a', correct_label: 'A', difficulty: 'high' },
 
-
-
-
-     { stimulus: 'stimuli/experiment1a/igh_B_101.png', correct_key: 'b', correct_label: 'B', difficulty: 'high' },
+     { stimulus: 'stimuli/experiment1a/high_B_101.png', correct_key: 'b', correct_label: 'B', difficulty: 'high' },
      { stimulus: 'stimuli/experiment1a/high_B_110.png', correct_key: 'b', correct_label: 'B', difficulty: 'high' },
      { stimulus: 'stimuli/experiment1a/high_B_111.png', correct_key: 'b', correct_label: 'B', difficulty: 'high' },
      { stimulus: 'stimuli/experiment1a/high_B_111.png', correct_key: 'b', correct_label: 'B', difficulty: 'high' },
    ],
-   repetitions: 2,
    randomize_order: true
  };
 
 
 
 
- // Low (hard) procedure ( i dont know if ths runs properly)
+ // Low (hard) procedure 
  var test_procedure_low = {
    timeline: [fixation, test],
    timeline_variables: [
      { stimulus: 'stimuli/experiment1a/low_A_000.png', correct_key: 'a', correct_label: 'A', difficulty: 'low' },
-     { stimulus: 'stimuli/experiment1a/ow_A_000.png', correct_key: 'a', correct_label: 'A', difficulty: 'low' },
+     { stimulus: 'stimuli/experiment1a/low_A_000.png', correct_key: 'a', correct_label: 'A', difficulty: 'low' },
      { stimulus: 'stimuli/experiment1a/low_A_001.png', correct_key: 'a', correct_label: 'A', difficulty: 'low' },
      { stimulus: 'stimuli/experiment1a/low_A_010.png', correct_key: 'a', correct_label: 'A', difficulty: 'low' },
 
-
-
-
      { stimulus: 'stimuli/experiment1a/low_B_101.png', correct_key: 'b', correct_label: 'B', difficulty: 'low' },
      { stimulus: 'stimuli/experiment1a/low_B_110.png', correct_key: 'b', correct_label: 'B', difficulty: 'low' },
-     { stimulus: 'stimuli/experiment1a/ow_B_111.png', correct_key: 'b', correct_label: 'B', difficulty: 'low' },
-     { stimulus: 'stimuli/experiment1a/ow_B_111.png', correct_key: 'b', correct_label: 'B', difficulty: 'low' },
+     { stimulus: 'stimuli/experiment1a/low_B_111.png', correct_key: 'b', correct_label: 'B', difficulty: 'low' },
+     { stimulus: 'stimuli/experiment1a/low_B_111.png', correct_key: 'b', correct_label: 'B', difficulty: 'low' },
    ],
-   repetitions: 2,
    randomize_order: true
  };
 
@@ -273,6 +213,15 @@ var post_experiment_survey = {
    ]
 };
 timeline.push(post_experiment_survey);
+
+var debrief= {
+   type: jsPsychHtmlKeyboardResponse,
+   stimulus: `
+     <p>Thank you for participating in this experiment!</p>
+     <p>The goal of this experiment is to investigate if more commonly used words are easier to categorize <br> and so we want to see how good people can categorize common vs uncommon colors. </p>
+   `
+ };
+ timeline.push(debrief);
 
 
  // Fullscreen OFF + End
