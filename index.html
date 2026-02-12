@@ -7,6 +7,7 @@
  <script src="https://unpkg.com/jspsych@8.2.3"></script>
  <script src="https://unpkg.com/@jspsych/plugin-preload@2.1.0"></script>
  <script src="https://unpkg.com/@jspsych/plugin-html-keyboard-response@2.1.0"></script>
+ <script src="https://unpkg.com/@jspsych/plugin-image-keyboard-response@1.1.3" type="text/javascript"></script>
  <script src="https://unpkg.com/@jspsych/plugin-categorize-image@2.1.0"></script>
  <script src="https://unpkg.com/@jspsych/plugin-fullscreen@2.1.0"></script>
  <script src="https://unpkg.com/@jspsych/plugin-survey-text@2.1.0"></script>
@@ -156,6 +157,13 @@ timeline.push(preload);
    randomize_order: true
  };
 
+//comprehension check
+ var comprehension_check = {
+  type: jsPsychImageKeyboardResponse,
+  stimulus: 'stimuli/experiment1a/high_A_010.png',
+  choices: ['a', 'b'],
+  prompt: "<p><strong>Choose B if you are paying attention.</strong></p>"
+};
 
 
 
@@ -198,9 +206,9 @@ timeline.push(preload);
 
  // Push correct condition blocks (3 blocks total)
  if (condition_assignment === "easy") {
-   timeline.push(test_procedure_high, test_block_1, test_procedure_high, test_block_2, test_procedure_high, test_block_3);
+   timeline.push(test_procedure_high, comprehension_check, test_block_1, test_procedure_high, comprehension_check, test_block_2, test_procedure_high, comprehension_check, test_block_3);
  } else {
-   timeline.push(test_procedure_low, test_block_1, test_procedure_low, test_block_2, test_procedure_low, test_block_3);
+   timeline.push(test_procedure_low, comprehension_check, test_block_1, test_procedure_low, comprehension_check, test_block_2, test_procedure_low, comprehension_check, test_block_3);
  }
 
 var post_experiment_survey = {
