@@ -110,7 +110,7 @@
   var instructions = {
     type: jsPsychHtmlKeyboardResponse,
     stimulus: `
-     <p>"Welcome to the experiment! </p>
+     <p>Welcome to the experiment! </p>
 
 <p> In this experiment, you will see a series of images. </p>
 <p> Your task is to categorize each image into one of two categories (A and B) as quickly and accurately as possible. </p>
@@ -297,25 +297,42 @@
 
 
   var post_experiment_survey1 = {
-    type: jsPsychSurveyText,
-    questions: [
-      { prompt: "Are you a native English speaker?", name: "Language"},
-      { prompt: "Do you have any experience with art? If so what? ie. painting, acrylics, oil, watercolor", name:"Art_background"},
-      { prompt: "Did you use any particular strategy when sorting the color wheels into categories?", name: "Strategy" },
-    ]
-  };
-  timeline.push(post_experiment_survey1);
+  type: jsPsychSurveyText,
+  questions: [
+    { prompt: "Are you a native English speaker?", name: "Language", rows: 3, columns: 80 },
+    { prompt: "Do you have any experience with art? If so what? ie. painting, acrylics, oil, watercolor", name:"Art_background", rows: 6, columns: 80 },
+    { prompt: "Did you use any particular strategy when sorting the color wheels into categories?", name: "Strategy", rows: 6, columns: 80 },
+  ],
+  on_load: function () {
+    document.querySelectorAll(".jspsych-survey-text textarea").forEach((el) => {
+      el.style.width = "1000px";
+      el.style.maxWidth = "95%";
+      el.style.minHeight = "140px";
+      el.style.padding = "12px 14px";
+      el.style.boxSizing = "border-box";
+    });
+  }
+};
+timeline.push(post_experiment_survey1);
 
-  var post_experiment_survey2 = {
-    type: jsPsychSurveyText,
-    questions: [
-      { prompt: "Did you experience any technical issues when doing the experiment?", name: "Issues" },
-      { prompt: "What do you think this experiment was about?", name: "Why_experiment" },
-      { prompt: "Is there anything else you want the experimenters to know about the experiment?", name: "Extra_info" }
-    ]
-  };
-  timeline.push(post_experiment_survey2);
-
+var post_experiment_survey2 = {
+  type: jsPsychSurveyText,
+  questions: [
+    { prompt: "Did you experience any technical issues when doing the experiment?", name: "Issues", rows: 6, columns: 80 },
+    { prompt: "What do you think this experiment was about?", name: "Why_experiment", rows: 6, columns: 80 },
+    { prompt: "Is there anything else you want the experimenters to know about the experiment?", name: "Extra_info", rows: 6, columns: 80 }
+  ],
+  on_load: function () {
+    document.querySelectorAll(".jspsych-survey-text textarea").forEach((el) => {
+      el.style.width = "1000px";
+      el.style.maxWidth = "95%";
+      el.style.minHeight = "140px";
+      el.style.padding = "12px 14px";
+      el.style.boxSizing = "border-box";
+    });
+  }
+};
+timeline.push(post_experiment_survey2);
   //PLEASE KEEP FOR ALL FUTURE ITERATIONS
   //this portion of the code ensures that the data gets sent to be stored on OSF
   const save_data = {
@@ -330,13 +347,6 @@
 var debrief = {
   type: jsPsychHtmlKeyboardResponse,
   stimulus: `
-    <div style="
-      max-width: 1000px;
-      margin: 0 auto;
-      padding: 50px 60px;
-      border: 2px solid #000;
-      border-radius: 16px;
-    ">
       <p>Thank you for participating in this experiment!</p>
       <p>
         The goal of this experiment is to investigate how our access to language affects learning. <br>
