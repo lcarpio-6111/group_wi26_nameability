@@ -62,6 +62,7 @@
       'stimuli/experiment1a/low_B_101.png',
       'stimuli/experiment1a/low_B_110.png',
       'stimuli/experiment1a/low_B_111.png',
+      'stimuli/experiment_check.webp'
     ],
     show_detailed_errors: true,
     max_load_time: 60000,
@@ -109,7 +110,7 @@
   var instructions = {
     type: jsPsychHtmlKeyboardResponse,
     stimulus: `
-     <p>Welcome to the experiment! </p>
+     <p> Welcome to the experiment! </p>
 
 <p> In this experiment, you will see a series of images. </p>
 <p> Your task is to categorize each image into one of two categories (A and B) as quickly and accurately as possible. </p>
@@ -118,6 +119,12 @@
   };
   timeline.push(instructions);
 
+  var comprehension_check = {
+    type: jsPsychImageKeyboardResponse,
+    stimulus: 'stimuli/experiment_check.webp',
+    prompt: "<p><strong>Choose Q if you are paying attention.</strong></p>",
+    choices: 'q',
+  };
 
   // Fixation
   var fixation = {
@@ -157,19 +164,19 @@
   };
 
   //Loops test trial until correct
- var if_node_a = {
-    timeline: [fixation, test],
-    loop_function: function () {
-      var last_data = jsPsych.data.get().last(1).values()[0];
-      if (last_data.correct) {
-        console.log('CORRECT: DONT REPEAT');
-        return false; //Retry last trial
-      } else {
-        console.log('INCORRECT: REPEAT');
-        return true;
-      }
-    }
-  };
+//  var if_node_a = {
+//     timeline: [fixation, test],
+//     loop_function: function () {
+//       var last_data = jsPsych.data.get().last(1).values()[0];
+//       if (last_data.correct) {
+//         console.log('CORRECT: DONT REPEAT');
+//         return false; //Retry last trial
+//       } else {
+//         console.log('INCORRECT: REPEAT');
+//         return true;
+//       }
+//     }
+//   };
 
  var if_node_b = {
   timeline: [fixation, test],
@@ -186,7 +193,7 @@
   //difficulty might be misleading -> change to nameability: 'high' maybe
   // High (easy) procedure
   var test_procedure_high = {
-    timeline: [fixation, test, if_node_a],
+    timeline: [fixation, test],
     timeline_variables: [
       { stimulus: 'stimuli/experiment1a/high_A_000.png', correct_key: 'A', correct_label: 'A', difficulty: 'high' },
       { stimulus: 'stimuli/experiment1a/high_A_000.png', correct_key: 'A', correct_label: 'A', difficulty: 'high' },
@@ -201,7 +208,7 @@
     randomize_order: true,
 
   };var test_procedure_high2 = {
-    timeline: [fixation, test, if_node_a],
+    timeline: [fixation, test],
     timeline_variables: [
       { stimulus: 'stimuli/experiment1a/high_A_000.png', correct_key: 'B', correct_label: 'A', difficulty: 'high' },
       { stimulus: 'stimuli/experiment1a/high_A_000.png', correct_key: 'B', correct_label: 'A', difficulty: 'high' },
@@ -217,12 +224,12 @@
   };
 
   //comprehension check
-  var comprehension_check = {
-    type: jsPsychImageKeyboardResponse,
-    stimulus: 'stimuli/experiment1a/high_A_010.png',
-    choices: ['a', 'b'],
-    prompt: "<p><strong>Choose B if you are paying attention.</strong></p>"
-  };
+  // var comprehension_check = {
+  //   type: jsPsychImageKeyboardResponse,
+  //   stimulus: 'stimuli/experiment1a/high_A_010.png',
+  //   choices: ['a', 'b'],
+  //   prompt: "<p><strong>Choose B if you are paying attention.</strong></p>"
+  // };
 
 
 
@@ -244,7 +251,7 @@
   };
 
   var test_procedure_low2 = {
-    timeline: [fixation, test, if_node_a],
+    timeline: [fixation, test],
     timeline_variables: [
       { stimulus: 'stimuli/experiment1a/low_A_000.png', correct_key: 'B', correct_label: 'A', difficulty: 'low' },
       { stimulus: 'stimuli/experiment1a/low_A_000.png', correct_key: 'B', correct_label: 'A', difficulty: 'low' },
@@ -272,34 +279,98 @@
     type: jsPsychHtmlKeyboardResponse,
     stimulus: '<p><strong>TEST BLOCK 3 FINISHED</strong></p><p>Press any key to continue.</p>'
   };
-
-
-
-
-  // Push correct condition blocks (3 blocks total)
-  // if (condition_assignment === "easy") {
-  //   timeline.push(test_procedure_high, comprehension_check, test_block_1, test_procedure_high, comprehension_check, test_block_2, test_procedure_high, comprehension_check, test_block_3);
-  // } else if (condition_assignment === "easy2") {
-  //   timeline.push(test_procedure_high2, comprehension_check, test_block_1, test_procedure_high2, comprehension_check, test_block_2, test_procedure_high2, comprehension_check, test_block_3);
-  // } else if (condition_assignment === "hard2") {
-  //   timeline.push(test_procedure_low2, comprehension_check, test_block_1, test_procedure_low2, comprehension_check, test_block_2, test_procedure_low2, comprehension_check, test_block_3);  
-  
-  // } else {
-  //   timeline.push(test_procedure_low, comprehension_check, test_block_1, test_procedure_low, comprehension_check, test_block_2, test_procedure_low, comprehension_check, test_block_3);
-  // }
-
-
-  var post_experiment_survey = {
-    type: jsPsychSurveyText,
-    questions: [
-      { prompt: "Did you use any particular strategy when sorting the color wheels into categories?", name: "Strategy", rows: 5 },
-      { prompt: "Did you experience any technical issues when doing the experiment?", name: "Issues", rows: 5 },
-      { prompt: "What do you think this experiment was about?", name: "Why_experiment", rows: 5 },
-      { prompt: "Is there anything else you want the experimentors to know about the experiment?", name: "Extra_info", rows: 5 }
-    ]
+  var test_block_4 = {
+    type: jsPsychHtmlKeyboardResponse,
+    stimulus: '<p><strong>TEST BLOCK 4 FINISHED</strong></p><p>Press any key to continue.</p>'
   };
-  timeline.push(post_experiment_survey);
+  var test_block_5 = {
+    type: jsPsychHtmlKeyboardResponse,
+    stimulus: '<p><strong>TEST BLOCK 5 FINISHED</strong></p><p>Press any key to continue.</p>'
+  };
+  var test_block_6 = {
+    type: jsPsychHtmlKeyboardResponse,
+    stimulus: '<p><strong>TEST BLOCK 6 FINISHED</strong></p><p>Press any key to continue.</p>'
 
+  };
+
+
+
+  // Push correct condition blocks (6 blocks total)
+if (condition_assignment === "easy") {
+  timeline.push(
+    test_procedure_high, comprehension_check, test_block_1,
+    test_procedure_high, comprehension_check, test_block_2,
+    test_procedure_high, comprehension_check, test_block_3,
+    test_procedure_high, comprehension_check, test_block_4,
+    test_procedure_high, comprehension_check, test_block_5,
+    test_procedure_high, comprehension_check, test_block_6
+  );
+} else if (condition_assignment === "easy2") {
+  timeline.push(
+    test_procedure_high2, comprehension_check, test_block_1,
+    test_procedure_high2, comprehension_check, test_block_2,
+    test_procedure_high2, comprehension_check, test_block_3,
+    test_procedure_high2, comprehension_check, test_block_4,
+    test_procedure_high2, comprehension_check, test_block_5,
+    test_procedure_high2, comprehension_check, test_block_6
+  );
+} else if (condition_assignment === "hard2") {
+  timeline.push(
+    test_procedure_low2, comprehension_check, test_block_1,
+    test_procedure_low2, comprehension_check, test_block_2,
+    test_procedure_low2, comprehension_check, test_block_3,
+    test_procedure_low2, comprehension_check, test_block_4,
+    test_procedure_low2, comprehension_check, test_block_5,
+    test_procedure_low2, comprehension_check, test_block_6
+  );
+} else {
+  timeline.push(
+    test_procedure_low, comprehension_check, test_block_1,
+    test_procedure_low, comprehension_check, test_block_2,
+    test_procedure_low, comprehension_check, test_block_3,
+    test_procedure_low, comprehension_check, test_block_4,
+    test_procedure_low, comprehension_check, test_block_5,
+    test_procedure_low, comprehension_check, test_block_6
+  );
+}
+
+  var post_experiment_survey1 = {
+  type: jsPsychSurveyText,
+  questions: [
+    { prompt: "Are you a native English speaker?", name: "Language", rows: 3, columns: 80 },
+    { prompt: "Do you have any experience with art? If so what? ie. painting, acrylics, oil, watercolor", name:"Art_background", rows: 6, columns: 80 },
+    { prompt: "Did you use any particular strategy when sorting the color wheels into categories?", name: "Strategy", rows: 6, columns: 80 },
+  ],
+  on_load: function () {
+    document.querySelectorAll(".jspsych-survey-text textarea").forEach((el) => {
+      el.style.width = "1000px";
+      el.style.maxWidth = "95%";
+      el.style.minHeight = "140px";
+      el.style.padding = "12px 14px";
+      el.style.boxSizing = "border-box";
+    });
+  }
+};
+timeline.push(post_experiment_survey1);
+
+var post_experiment_survey2 = {
+  type: jsPsychSurveyText,
+  questions: [
+    { prompt: "Did you experience any technical issues when doing the experiment?", name: "Issues", rows: 6, columns: 80 },
+    { prompt: "What do you think this experiment was about?", name: "Why_experiment", rows: 6, columns: 80 },
+    { prompt: "Is there anything else you want the experimenters to know about the experiment?", name: "Extra_info", rows: 6, columns: 80 }
+  ],
+  on_load: function () {
+    document.querySelectorAll(".jspsych-survey-text textarea").forEach((el) => {
+      el.style.width = "1000px";
+      el.style.maxWidth = "95%";
+      el.style.minHeight = "140px";
+      el.style.padding = "12px 14px";
+      el.style.boxSizing = "border-box";
+    });
+  }
+};
+timeline.push(post_experiment_survey2);
   //PLEASE KEEP FOR ALL FUTURE ITERATIONS
   //this portion of the code ensures that the data gets sent to be stored on OSF
   const save_data = {
@@ -311,14 +382,17 @@
   };
   timeline.push(save_data);
   //PLEASE KEEP FOR ALL FUTURE ITERATIONS
-
-  var debrief = {
-    type: jsPsychHtmlKeyboardResponse,
-    stimulus: `
-     <p>Thank you for participating in this experiment!</p>
-     <p>The goal of this experiment is to investigate how our access to language affects learning. <br> In this case, categorization rates between patterns of color with high (common) or low (uncommon) nameability. </p>
-   `
-  };
+var debrief = {
+  type: jsPsychHtmlKeyboardResponse,
+  stimulus: `
+      <p>Thank you for participating in this experiment!</p>
+      <p>
+        The goal of this experiment is to investigate how our access to language affects learning. <br>
+        In this case, categorization rates between patterns of color with high (common) or low (uncommon) nameability.
+      </p>
+    </div>
+  `
+};
   timeline.push(debrief);
 
   // Fullscreen OFF + End
